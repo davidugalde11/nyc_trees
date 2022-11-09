@@ -9,8 +9,8 @@ from collections import Counter
 #     print("The list of available commands are: "
 #           "1. 'help' for a help page about each valid program command."
 #           "2. 'listtrees' for an alphabetical list of full tree species common names."
-#           "3. 'treeinfo <tree_species_names>' for information about a species of tree, including total number of such trees, zip codes in which this tree is found, the borough containing the largest number of such trees, and the average diameter of trees of this type."
-#           "4. 'nearby <latitude> <longitude> <distance>' for a list of full species common names and frequencies of all trees within the specified distance (km) from the given GPS point (latitude and longitude, both being fixed-point decimal numbers)."
+#           "3. 'treeinfo + tree' for information about a species of tree, including total number of such trees, zip codes in which this tree is found, the borough containing the largest number of such trees, and the average diameter of trees of this type."
+#           "4. 'nearby + location' for a list of full species common names and frequencies of all trees within the specified distance (km) from the given GPS point (latitude and longitude, both being fixed-point decimal numbers)."
 #           "5. 'quit' to quit the application.")
 
 pd.set_option('display.max_rows', None)
