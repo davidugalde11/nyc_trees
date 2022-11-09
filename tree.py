@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from collections import Counter
+from math import asin, sin, cos, radians, sqrt
 
 # print("Welcome to the treequery program.")
 # print("To begin, try typing 'help' for the list of valid commands.")
@@ -88,4 +89,16 @@ print(arr)
 #     if tree in trees:
 #         tree_info(tree)
 
+#part 5
+def haversine(lat1, lon1, lat2, lon2): #computes the distance between two points defined by decimal latitude and longitude
+	r = 6367.5 #radius of Earth in km
+	#convert decimal lat and lon to radians
+	d_lat = radians(lat2 - lat1)
+	d_lon = radians(lon2 - lon1)
+	lat1 = radians(lat1)
+	lat2 = radians(lat2)
+	
+	p2 = sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2
+	p1 = 2*asin(sqrt(a))
 
+	return r * p1 #the complete Haversine formula
