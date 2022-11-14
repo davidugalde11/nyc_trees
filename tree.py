@@ -95,12 +95,14 @@ if command == 'treeinfo'
                     print(matching_species)
         else:
             continue
+
 #define matching species
 def matching_species():
     for i in newtreeslist:
         if tree_species in i:
             name_match = tree_species.index(i)
             print('All matching species: \n', tree_species[int(name_match)])
+
 #define popularity in the city
 
 # Catch exception if file passed doesn't exist:
