@@ -76,6 +76,32 @@ try:
         for tree in most_common:
             print(f"{num}. {tree[0]}")
             num +=1
+            
+#treeinfo command
+if command == 'treeinfo'
+    #prompt to input tree species name
+    tree_species = input("Please select a tree species: ")
+    #list individual words in trees dictionary
+    newtreeslist = [i.split(' ')[0:-1] for i in list]
+    #if input matches full tree name, print tree info
+    for i in tree_list:
+        if tree_species in i:
+            print(tree_info)
+        elif:
+            #if input matches one or more words in tree substring, print tree info and all matching species
+            for i in newtreeslist:
+                if tree_species in i:
+                    print(tree_info)
+                    print(matching_species)
+        else:
+            continue
+#define matching species
+def matching_species():
+    for i in newtreeslist:
+        if tree_species in i:
+            name_match = tree_species.index(i)
+            print('All matching species: \n', tree_species[int(name_match)])
+#define popularity in the city
 
 # Catch exception if file passed doesn't exist:
 except FileNotFoundError:
