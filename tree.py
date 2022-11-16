@@ -174,8 +174,8 @@ try:
         query.remove(query[0])
         # Create a dictionary that will input the trees as keys and their total as values:
         matches = {}
-        # Radius of earth in km for the Harversine formula:
-        R = 6371
+        # Radius of earth in km (avg of equatorial and polar radius) for the Harversine formula:
+        R = 6367.5
         # Use radians from math to get the correct format for Harvesine formula:
         # Convert string into float values:
         lat1 = radians(float(query[0]))
