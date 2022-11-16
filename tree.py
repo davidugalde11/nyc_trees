@@ -148,15 +148,12 @@ try:
         # radius = number in km
         # a = haversine(lat1, lon1, lat2, lon2)
         # if a <= radius:
-            # add tree to a running total of trees with that same name that are within the user-specified radius (in km)
-    # In alphabetical order print tree's common name: <frequency of tree as a percentage relative to all other trees that are within the user-specified radius> aka number_of_unique_tree / number_of_all_trees_in_area as a %
-
-    # If no trees are present within the user-specified radius (in km) from the user-specified center_point, print that there are no trees present
-        # ??? brainstorm
-
-
-    
-    
+            # add tree to a running total of trees of that same species/with that same name that are within the user-specified radius (in km)
+            # add tree to running total of ALL trees that are within the user-specified radius a <= radius
+        # In alphabetical order print tree's common name: <frequency of tree as a percentage relative to all other trees that are within the user-specified radius> aka number_of_unique_tree / number_of_all_trees_in_area as a %
+        # if running total of all trees for a <= radius is == 0, print that there are no trees within that radius
+        
+        
     
     # Set interactive loop so user can keep asking questions until program ends:
     # Set a variable to true that can be changed to false when the loop is over:
