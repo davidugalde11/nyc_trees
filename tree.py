@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 import re
+from math import asin, sin, cos, radians, sqrt
 
 # Check if there is only one argument given:
 if len(sys.argv) != 2:
@@ -123,8 +124,40 @@ try:
         temp_tree_list.sort()
         for tree in temp_tree_list:
             print(tree)
+            
+            
+            
+    # Define the Haversine formula function:
+    def haversine(lat1, lon1, lat2, lon2): # Compute the distance between two points defined by decimal latitude and longitude
+        r = 6367.5 # Radius of Earth in km
+        # Convert decimal latitude and longitude to radians
+        d_lat = radians(lat2 - lat1)
+        d_lon = radians(lon2 - lon1)
+        lat1 = radians(lat1)
+        lat2 = radians(lat2)
+        b = sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2
+        a = 2*asin(sqrt(b))
+        return r * a #  The complete Haversine formula
+
+    # Get center_point x and y coordinates (lat1 and lon1) as decimal arguments from user
+    # Loop function over all x and y coordinates (lat2 and lon2) for all trees
+        # lat1 = 
+        # lon1 = 
+        # lat2 = 
+        # lon2 = 
+        # radius = number in km
+        # a = haversine(lat1, lon1, lat2, lon2)
+        # if a <= radius:
+            # add tree to a running total of trees with that same name that are within the user-specified radius (in km)
+    # In alphabetical order print tree's common name: <frequency of tree as a percentage relative to all other trees that are within the user-specified radius> aka number_of_unique_tree / number_of_all_trees_in_area as a %
+
+    # If no trees are present within the user-specified radius (in km) from the user-specified center_point, print that there are no trees present
+        # ??? brainstorm
 
 
+    
+    
+    
     # Set interactive loop so user can keep asking questions until program ends:
     # Set a variable to true that can be changed to false when the loop is over:
     is_on = True
