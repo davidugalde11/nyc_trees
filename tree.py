@@ -247,7 +247,7 @@ try:
         else:
             print("Invalid command. Type 'help' for the list of valid commands")
 
-
+            
 # Catch exception if file passed doesn't exist:
 except FileNotFoundError:
     print("The file passed does not exist")
@@ -256,12 +256,3 @@ except FileNotFoundError:
 except PermissionError:
     print("You don't have the appropriate permission to read this file")
     sys.exit()
-
-
-
-
-
-
-
-
-
