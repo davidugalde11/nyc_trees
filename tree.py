@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-# Usage: tree_query.py
-# Authors: Ann Lee, David Ugalde, Jenny Zhang, Nadia Fayed
-# Created on: November 1st, 2022
-# Description: Make an interactive program with nyc tree data.
+# # treequery.py
+# Usage : treequery.py
+# Authors : Ann Lee, David Ugalde, Jenny Zhang, Nadia Fayed
+# Created on : November 1st, 2022
+# Description : Interactive program that reads NYC tree data from a file and generates information about tree species, trees nearby, valid program commands, etc depending on user input.
 # Version: 1
 # **************************************************************
 
