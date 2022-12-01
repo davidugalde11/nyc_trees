@@ -213,7 +213,7 @@ try:
             if matches[tree] == 0:
                 continue
             # Print all the tree matches and their value represented as a percentage:
-            print(f"{tree:15}: {round(((matches[tree] / total_match) * 100), 2) :>10}%")
+            print(f"{tree':':<20} {round(((matches[tree] / total_match) * 100), 2) :>15}%")
 
 
     # Set interactive loop so user can keep asking questions until program ends:
