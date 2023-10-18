@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-# # treequery.py
-# Usage : treequery.py
-# Authors : Ann Lee, David Ugalde, Jenny Zhang, Nadia Fayed
-# Created on : November 1st, 2022
-# Description : Interactive program that reads NYC tree data from a file and generates information about tree species, trees nearby, valid program commands, etc depending on user input.
-# Version: 1
+# Usage: tree_query.py
+# Authors: Ann Lee, David Ugalde, Jenny Zhang, Nadia Fayed
+# Created on: November 1st, 2022
+# Description: Make an interactive program with nyc tree data.
+# Version: 2
 # **************************************************************
 
 # Import modules needed for program
@@ -21,24 +20,23 @@ if len(sys.argv) != 2:
     sys.exit()
 # Check if the file given is in csv format:
 if not sys.argv[1].endswith('.csv'):
-    print("The file may not be in the correct format or be corrupted.")
+    print("The file may not be in the correct format or may be corrupted.")
     sys.exit()
 
 
 # Try to create a data frame with Pandas:
 try:
+    # List with columns to read
+    columns_to_read = ['tree_id', 'health', 'spc_common', 'postcode', 'borough', 'nta_name', 'latitude', 'longitude']
     # Create a data frame from the input csv file:
-    data = pd.read_csv(sys.argv[1])
+    data = pd.read_csv(sys.argv[1], usecols=columns_to_read)
     # Give data frame columns names:
-    data.columns = ["Serial", "N/A", "Condition", "Tree", "Zip Code", "Borough", "Neighborhood", "Latitude", "Longitude"]
-    # Create temporary list with all trees:
-    temp_tree = data["Tree"].values.tolist()
-    # Use loop to get unique list of trees:
-    tree_list = []
-    for tree in temp_tree:
-        if tree not in tree_list:
-            tree_list.append(tree)
-    # Sort list alphabetically:
+    data.columns = ["Serial", "Condition", "Tree", "Zip Code", "Borough", "Neighborhood", "Latitude", "Longitude"]
+    # Create temporary list with all trees, excluding numeric values
+    temp_tree = [tree for tree in data["Tree"].values.tolist() if not isinstance(tree, (int, float))]
+    # Use loop to get unique list of trees
+    tree_list = list(set(temp_tree))
+    # Sort list alphabetically
     tree_list.sort()
     # Create a dictionary with every tree name as keys for their own dictionary:
     trees = {}
@@ -100,7 +98,7 @@ try:
                 print(f"Total number of such trees: {trees_final[tree]['Total']}")
                 # Limit the number of zip codes to 5 for better visualization with list splicing:
                 print(f"Zip codes in which this tree is found: {trees_final[tree]['Zip Code'][:5]} and more.")
-                print(f"Borough containing the largest number of trees: {trees_final[tree]['Borough']}, with {trees[tree]['Borough Count']}")
+                print(f"Borough containing the largest number of trees: {trees_final[tree]['Borough']}, with {trees[tree]['Borough Count']}.")
                 return
         for key in query:
             for tree in trees_final.keys():
@@ -115,7 +113,7 @@ try:
         match_queens = 0
         match_staten_island = 0
         for match in matches:
-            print(match + "\n")
+            print(match.title() + "\n")
             # For every match in the matches dictionary add on to respective value for percentage calculation:
             match_nyc += trees_final[match]["Total"]
             match_manhattan += trees_final[match]["Manhattan"]
@@ -123,43 +121,64 @@ try:
             match_brooklyn += trees_final[match]["Brooklyn"]
             match_queens += trees_final[match]["Queens"]
             match_staten_island += trees_final[match]["Staten Island"]
-        # Print output using round  function, formatting tools and tab special character:
+        # Print a header with column names for clarity:
         print("\nPopularity in the city:\n")
-        print(f"NYC:  \t\t\t\t{match_nyc :5} ({nyc_trees :5}){round(((match_nyc/nyc_trees) * 100), 2) :5}%")
-        print(f"Manhattan:   \t\t\t{match_manhattan :5} ({manhattan_count :5}) {round(((match_manhattan / manhattan_count) * 100), 2) :5}%")
-        print(f"Bronx:    \t\t\t{match_bronx :5} ({bronx_count :5}) {round(((match_bronx / bronx_count) * 100), 2) :5}%")
-        print(f"Brooklyn: \t\t\t{match_brooklyn :5} ({brooklyn_count :5}){round(((match_brooklyn / brooklyn_count) * 100), 2) :5}%")
-        print(f"Queens: \t\t\t{match_queens :5} ({queens_count :5}){round(((match_queens / queens_count) * 100), 2) :5}%")
-        print(f"Staten Island: \t\t\t{match_staten_island :5} ({staten_island_count :5}){round(((match_staten_island / staten_island_count) * 100), 2) :5}%")
+        # Adjust column name formatting
+        column_width = 15  # Adjust this value to your preference
+        print(
+            f"{'Borough':<{column_width}}{'   Count':<{column_width}}{'Total Trees':<{column_width}}{'Percentage (%)':<{column_width}}")
+        print('-' * (4 * column_width))  # Adjust the length of the separator line based on column width
+
+        # Adjust data formatting
+        print(f"NYC:          {match_nyc :>10,}{nyc_trees :>15,}{round(((match_nyc / nyc_trees) * 100), 2) :>15}%")
+        print(
+            f"Manhattan:    {match_manhattan :>10,}{manhattan_count :>15,}{round(((match_manhattan / manhattan_count) * 100), 2) :>15}%")
+        print(f"Bronx:        {match_bronx :>10,}{bronx_count :>15,}{round(((match_bronx / bronx_count) * 100), 2) :>15}%")
+        print(
+            f"Brooklyn:     {match_brooklyn :>10,}{brooklyn_count :>15,}{round(((match_brooklyn / brooklyn_count) * 100), 2) :>15}%")
+        print(
+            f"Queens:       {match_queens :>10,}{queens_count :>15,}{round(((match_queens / queens_count) * 100), 2) :>15}%")
+        print(
+            f"Staten Island: {match_staten_island :>9,}{staten_island_count :>15,}{round(((match_staten_island / staten_island_count) * 100), 2) :>15}%")
 
     # Define the most common function:
     def most_common():
-        # Use list comprehension to create list of trees all lower values to prevent inconsistent data portrayal:
+        # Use list comprehension to create a list of trees all in lowercase to prevent inconsistent data portrayal:
         tree_list_lower = [tree.lower() for tree in temp_tree]
         tree_count = Counter(tree_list_lower)
         most_common = tree_count.most_common(20)
+        total_trees = len(tree_list_lower)
+
         # Set number variable to add manual counter for better visualization:
         num = 1
+
         # Print a caption for values:
         print("Here are the twenty most popular trees in NYC:")
-        for tree in most_common:
-            print(f"{num}. {tree[0]}")
-            num +=1
+        print("{:<4} {:<40} {:<15} {:<10}".format("Rank", "Tree Species", "Count", "Percentage"))
+        print("-" * 75)
+
+        for rank, (tree, count) in enumerate(most_common, 1):
+            percentage = (count / total_trees) * 100
+            print("{:<4} {:<40} {:<15} {:8.2f}%".format(rank, tree.title(), count, percentage))
+            num += 1
+
+
+
 
     # Define the get help function:
     def get_help():
         print("These are the available commands in the treequery program:")
         print("1. help")
         print("2. listtrees")
-        print("3. treeinfo (with at least one input argument")
-        print("4. nearby (with some input arguments")
+        print("3. treeinfo (broad category or specific species)")
+        print("4. nearby (latitude, longitude, and distance (km))")
         print("5. common")
         print("6. quit")
 
     # Define the list trees function:
     def list_trees():
         # Create temp list to modify without interfering with other functions:
-        temp_tree_list = [tree.lower() for tree in tree_list]
+        temp_tree_list = [tree.title() for tree in tree_list]
         # Use sort function to alphabetize list of trees:
         temp_tree_list.sort()
         for tree in temp_tree_list:
@@ -175,8 +194,8 @@ try:
         query.remove(query[0])
         # Create a dictionary that will input the trees as keys and their total as values:
         matches = {}
-        # Radius of earth in km (avg of equatorial and polar radius) for the Harversine formula:
-        R = 6367.5
+        # Radius of earth in km for the Harversine formula:
+        R = 6371
         # Use radians from math to get the correct format for Harvesine formula:
         # Convert string into float values:
         lat1 = radians(float(query[0]))
@@ -207,20 +226,22 @@ try:
         if total_match == 0:
             print("No trees are present within this distance.")
             return
+        # Calculate the maximum width required for the tree names:
+        max_width = max(len(tree) for tree in matches.keys())
         # Loop through every tree in matches:
         for tree in matches.keys():
             # Use continue to not output any match of 0.0%
             if matches[tree] == 0:
                 continue
-            # Print all the tree matches and their value represented as a percentage:
-            print(f"{tree:<20}: {round(((matches[tree] / total_match) * 100), 2) :>20}%")
-
+            # Format and print the tree matches and their values represented as percentages:
+            percent = round((matches[tree] / total_match) * 100, 2)
+            print("{:<{width}} {:8.2f}%".format(tree.title(), percent, width=max_width))
 
     # Set interactive loop so user can keep asking questions until program ends:
     # Set a variable to true that can be changed to false when the loop is over:
     is_on = True
     # Welcome message:
-    print("Welcome to the treequery program")
+    print("Welcome to the TreeQuery program")
     print("To begin, try typing 'help' for the list of valid commands.")
     while is_on:
         # Get user input and reformat it to lowercase:
@@ -239,7 +260,7 @@ try:
         elif command[0] == 'nearby':
             nearby(command)
         elif command[0] == 'quit':
-            print("Thank you for using treequery program!")
+            print("Thank you for using TreeQuery program!")
             is_on = False
             sys.exit()
         elif command[0] == 'common':
@@ -248,7 +269,7 @@ try:
         else:
             print("Invalid command. Type 'help' for the list of valid commands")
 
-            
+
 # Catch exception if file passed doesn't exist:
 except FileNotFoundError:
     print("The file passed does not exist")
@@ -257,3 +278,6 @@ except FileNotFoundError:
 except PermissionError:
     print("You don't have the appropriate permission to read this file")
     sys.exit()
+
+
+
